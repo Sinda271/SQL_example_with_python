@@ -3,8 +3,8 @@ from mysql.connector import errorcode
 
 # ******************** Constants *****************************
 CONFIG = {
-    'user': 'Sinda',
-    'password': 'Sonda25516122!',
+    'user': 'usename',
+    'password': 'password',
     'host': '127.0.0.1',
     'database': 'walmart',
 }
