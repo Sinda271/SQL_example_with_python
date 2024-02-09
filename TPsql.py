@@ -1,9 +1,11 @@
+import sys
+import getopt
 import mysql.connector
 from mysql.connector import errorcode
 
 # ******************** Constants *****************************
 CONFIG = {
-    'user': 'usename',
+    'user': 'username',
     'password': 'password',
     'host': '127.0.0.1',
     'database': 'walmart',
@@ -84,23 +86,44 @@ def select_table_info(cursor, mode):
 
 # ******************** Main code *****************************
 if __name__ == '__main__':
-    try:
-        cnx = mysql.connector.connect(**CONFIG)
-        if cnx.is_connected():
-            print("Connected successfully!")
-            with cnx.cursor() as cursor:
-                # Create table
-                create_table(cursor)
-                # Select info from table by passing mode index 
-                select_table_info(cursor=cursor, mode=MODES[2])
+    argumentList = sys.argv[1:]
+    # Options
+    options = "hm:"
+    # Long options
+    long_options = ["help", "mode"]
+  
+    # Parsing argument
+    arguments, values = getopt.getopt(argumentList, options, long_options)
+    
+    # checking each argument
+    for currentArgument, currentValue in arguments:
+ 
+        if currentArgument in ("-h", "--help"):
+            print("Choose a digit between 0 and 3 and rerun the script (example: python TPsql.py -m 2)")
+            print("0: Select all elements of the table")
+            print("1: Select unique product lines")
+            print("2: Return Most selling product line")
+            print("3: Return the revenue per month with descending order")
+        elif currentArgument in ("-m", "--mode"):
+            mode = int(currentValue)
+            
+            try:
+                cnx = mysql.connector.connect(**CONFIG)
+                if cnx.is_connected():
+                    print("Connected successfully!")
+                    with cnx.cursor() as cursor:
+                        # Create table
+                        create_table(cursor)
+                        # Select info from table by passing mode index 
+                        select_table_info(cursor=cursor, mode=MODES[mode])
+                        
                 
-        
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password or database name")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-    else:
-        cnx.close()
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                    print("Something is wrong with your user name or password or database name")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                    print("Database does not exist")
+                else:
+                    print(err)
+            else:
+                cnx.close()

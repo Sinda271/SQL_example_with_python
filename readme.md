@@ -59,7 +59,9 @@ Output:
 9. Replace csv file path
 <img src="images/replace_csv.png" width="800" /> 
 
-10. In the terminal run: ***python TPsql.py***
+
+10. In the terminal run: ***python .\TPsql.py -h*** or ***python .\TPsql.py --help*** to grasp how to run the script
+
 
 
 
