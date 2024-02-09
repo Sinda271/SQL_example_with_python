@@ -41,7 +41,7 @@ def create_table(cursor):
     
     # Fill table from csv file
     query = """
-    LOAD DATA INFILE 'D:/PythonProjects/AssistanteEnseignement/semaine3/WalmartSalesData.csv' 
+    LOAD DATA INFILE 'absolute_path_to_WalmartSalesData.csv' 
     INTO TABLE WMsales 
     FIELDS TERMINATED BY ',' 
     ENCLOSED BY '"'
